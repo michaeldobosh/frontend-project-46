@@ -5,6 +5,7 @@ extends:
 parserOptions:
   ecmaVersion: latest
 rules: 
+  no-restricted-syntax: ["off", "ForOfStatement"]
   no-console: 0
   linebreak-style: 0
   import/extensions: # FIXME: remove when rule will be adjusted for new nodejs version
