@@ -1,0 +1,10 @@
+{
+  "name": "Michael",
+  "age": 32,
+  "sex": "male",
+  "work": true,
+  "salary": "30000$",
+  "city": "New-York",
+  "weight": "86kg",
+  "hobby": "IT, music, skiing"
+}

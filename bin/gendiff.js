@@ -1,15 +1,6 @@
 #!/usr/bin/env node
 import { program } from 'commander';
-import * as fs from 'fs';
-import path from 'node:path';
-import diff from '../src/index.js';
-
-function genDiff(filepath1, filepath2) {
-  const obj1 = JSON.parse(fs.readFileSync(path.resolve(filepath1)));
-  const obj2 = JSON.parse(fs.readFileSync(path.resolve(filepath2)));
-  const str = diff(obj1, obj2);
-  console.log(str);
-}
+import genDiff from '../src/index.js';
 
 program
   .name('gendiff')
