@@ -7,5 +7,8 @@
 ### GitHub Actions status:
 ![example workflow](https://github.com/michaeldobosh/frontend-project-46/actions/workflows/github-actions-demo.yml/badge.svg)
 
+### Travis CI status:
+[![Build Status](https://app.travis-ci.com/michaeldobosh/frontend-project-46.svg?branch=main)](https://app.travis-ci.com/michaeldobosh/frontend-project-46)
+
 ### Package example:
 [![asciicast](https://asciinema.org/a/imIhOFjDsSfJ7IS2kj7azpRHh.svg)](https://asciinema.org/a/imIhOFjDsSfJ7IS2kj7azpRHh)
