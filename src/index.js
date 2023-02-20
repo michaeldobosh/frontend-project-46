@@ -23,7 +23,7 @@ const diff = (file1, file2) => {
     }
     if (!isEqual(key, nextKey) && !isEqual(value1, value2)) {
       if (Object.hasOwn(file2, keys[i])) {
-        keys[i] = chalk.green(` + ${key}: ${file2[key]}\n`);
+        keys[i] = chalk.blue(` + ${key}: ${file2[key]}\n`);
       }
       if (Object.hasOwn(file1, keys[i])) {
         keys[i] = chalk.red(` - ${key}: ${file1[key]}\n`);
