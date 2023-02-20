@@ -1,4 +1,3 @@
-import * as fs from 'fs';
 import path from 'node:path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
