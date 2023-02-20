@@ -36,13 +36,13 @@ jobs:
       - run: make install
       - run: make lint
       - run: make test
-      # - name: Test & publish code coverage
-      #   # Publish code coverage on Code Climate
-      #   # https://github.com/paambaati/codeclimate-action
-      #   uses: paambaati/codeclimate-action@v3.0.0
-      #   # Add Code Climate secret key
-      #   env:
-      #     CODECLIMATE_COVERAGE: ${{ secrets.CODECLIMATE_COVERAGE }}
-      #   with:
-      #     coverageCommand: make test-coverage
-      #     debug: true
+      - name: Test & publish code coverage
+        # Publish code coverage on Code Climate
+        # https://github.com/paambaati/codeclimate-action
+        uses: paambaati/codeclimate-action@v3.0.0
+        # Add Code Climate secret key
+        env:
+          CODECLIMATE_COVERAGE: ${{ secrets.CODECLIMATE_COVERAGE }}
+        with:
+          coverageCommand: make test-coverage
+          debug: true
