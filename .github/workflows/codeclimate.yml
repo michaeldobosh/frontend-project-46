@@ -1,11 +1,3 @@
 name: CodeClimate Coverage
-  runs-on: ubuntu-latest
-  - name: Test code coverage
-  - run: make lint
-  - run: make test
-  uses: paambaati/codeclimate-action@v3.0.0
   env:
     CODECLIMATE_COVERAGE: ${{ secrets.CODECLIMATE_COVERAGE }}
-  with:
-    coverageCommand: make test-coverage
-    debug: true
