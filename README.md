@@ -1,10 +1,7 @@
-### Hexlet tests and linter status:
+### Difference Calculator / Michael Dobosh
 [![Actions Status](https://github.com/michaeldobosh/frontend-project-46/workflows/hexlet-check/badge.svg)](https://github.com/michaeldobosh/frontend-project-46/actions)
-
-### CodeClimate status:
-<a href="https://codeclimate.com/github/michaeldobosh/frontend-project-46/maintainability"><img src="https://api.codeclimate.com/v1/badges/04cbcb90daec74e419f1/maintainability" /></a>
-
-### GitHub Actions status:
+[![Maintainability](https://api.codeclimate.com/v1/badges/04cbcb90daec74e419f1/maintainability)](https://codeclimate.com/github/michaeldobosh/frontend-project-46/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/04cbcb90daec74e419f1/test_coverage)](https://codeclimate.com/github/michaeldobosh/frontend-project-46/test_coverage)
 ![example workflow](https://github.com/michaeldobosh/frontend-project-46/actions/workflows/github-actions-demo.yml/badge.svg)
 
 ### Package example:
