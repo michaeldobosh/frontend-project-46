@@ -4,6 +4,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Test code coverage
+      - run: make lint
+      - run: make test
       # Publish code coverage on Code Climate
       # https://github.com/paambaati/codeclimate-action
       uses: paambaati/codeclimate-action@v3.0.0
