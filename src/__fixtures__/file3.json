@@ -1,11 +1,8 @@
 {
-  "name": "Michael",
-  "age": 18,
-  "weight": "78kg",
-  "sex": "male",
-  "work": false,
-  "city": "Boston",
-  "status": "unmarried",
-  "hobby": "music"
-  
+  "car": "toyota",
+  "model": "aristo",
+  "color": "black",
+  "yer": 2001,
+  "accident": true,
+  "nalog": "big"  
 }
