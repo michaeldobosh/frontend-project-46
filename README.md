@@ -6,3 +6,6 @@
 
 ### Package example:
 [![asciicast](https://asciinema.org/a/imIhOFjDsSfJ7IS2kj7azpRHh.svg)](https://asciinema.org/a/imIhOFjDsSfJ7IS2kj7azpRHh)
+
+### An example of the package and tests (fifth step):
+[![asciicast](https://asciinema.org/a/AzESOgPFYNFHLK5bZ9KAJiiOE.svg)](https://asciinema.org/a/AzESOgPFYNFHLK5bZ9KAJiiOE)
