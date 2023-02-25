@@ -1,15 +1,14 @@
-import * as fs from 'fs';
 import path from 'node:path';
+import * as fs from 'fs';
 import yaml from 'js-yaml';
-import calcDiff from './calcDiff.js';
 
-const getObject = (filepath) => {
-  switch (path.extname(filepath)) {
-    case '.json':
-      return JSON.parse(fs.readFileSync(path.resolve(filepath), 'utf-8'));
-    default:
-      return yaml.load(fs.readFileSync(path.resolve(filepath), 'utf-8'));
+const getPath = (filepath) => fs.readFileSync(path.resolve(filepath), 'utf-8');
+
+const getObj = (filepath) => {
+  if (path.extname(filepath) === '.json') {
+    return JSON.parse(getPath(filepath));
   }
+  return yaml.load(getPath(filepath));
 };
 
-export default (filepath1, filepath2) => calcDiff(getObject(filepath1), getObject(filepath2));
+export default getObj;

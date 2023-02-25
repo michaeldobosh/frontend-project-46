@@ -1,59 +1,38 @@
 import path from 'node:path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-import gendiff from '../src/parsers.js';
+import stylish from '../src/stylish.js';
+import gendiff, { calcDiff } from '../src/index.js';
+import getObj from '../src/parsers.js';
+import structure from '../src/__fixtures__/structure.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const files = ['file1', 'file2', 'file3', 'file4'];
-const extname = ['.json', '.yml', '.yaml'];
-const pathFile = (file, format) => path.join(__dirname, '..', 'src', '__fixtures__', `${file}${format}`);
+const format = ['.json', '.yml', '.yaml'];
 
-test('gendiff .json files', () => {
-  expect(gendiff(pathFile(files[0], extname[0]), pathFile(files[1], extname[0])))
-    .toEqual(`{
-  - follow: false
-    host: hexlet.io
-  - proxy: 123.234.53.22
-  - timeout: 50
-  + timeout: 20
-  + verbose: true
-}`);
-  expect(gendiff(pathFile(files[2], extname[0]), pathFile(files[3], extname[0])))
-    .toEqual(`{
-  - accident: true
-  + accident: false
-    car: toyota
-  - color: black
-  + color: silver
-  - model: aristo
-  + model: camry
-  - nalog: big
-    yer: 2001
-}`);
+const paths = (file, extname) => path.join(__dirname, '..', 'src', '__fixtures__', `${file}${extname}`);
+const diff = calcDiff(getObj(paths(files[2], format[0])), getObj(paths(files[3], format[0])));
+
+test('calcDiff/nested objects', () => {
+  const prop = ['common', '+ setting3', '+ setting5', 'key5', 'setting6', 'doge', '+ wow', '- group2', 'deep', null];
+  expect(diff[prop[0]]).toHaveProperty(prop[1], null);
+  expect(diff[prop[0]][prop[2]]).toHaveProperty(prop[3], 'value5');
+  expect(diff[prop[0]][prop[4]][prop[5]]).toHaveProperty(prop[6], 'so much');
+  expect(diff[prop[7]]).toHaveProperty(prop[8], { id: 45 });
+  expect(diff[prop[7]]).toHaveProperty(prop[8], { id: 45 });
 });
 
-test('gendiff .yaml files', () => {
-  expect(gendiff(pathFile(files[0], extname[1]), pathFile(files[1], extname[1])))
-    .toEqual(`{
-  - follow: false
-    host: hexlet.io
-  - proxy: 123.234.53.22
-  - timeout: 50
-  + timeout: 20
-  + verbose: true
-}`);
-  expect(gendiff(pathFile(files[2], extname[2]), pathFile(files[3], extname[2])))
-    .toEqual(`{
-  - accident: true
-  + accident: false
-    car: toyota
-  - color: black
-  + color: silver
-  - model: aristo
-  + model: camry
-  - nalog: big
-    yer: 2001
-}`);
+test('object stylish', () => {
+  expect(stylish(diff, ' ', 4)).toEqual(structure);
+});
+
+test('gendiff .json files', () => {
+  expect(gendiff(paths(files[2], format[0]), paths(files[3], format[0]))).toEqual(structure);
+});
+
+test('gendiff .yml, .yaml files', () => {
+  expect(gendiff(paths(files[2], format[1]), paths(files[3], format[1]))).toEqual(structure);
+  expect(gendiff(paths(files[2], format[2]), paths(files[3], format[2]))).toEqual(structure);
 });
