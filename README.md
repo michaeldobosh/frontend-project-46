@@ -13,3 +13,6 @@
 
 ### An example of the package and tests (sixth step):
 [![asciicast](https://asciinema.org/a/3h5uBx1qOoO6bdmnOcGXCpPto.svg)](https://asciinema.org/a/3h5uBx1qOoO6bdmnOcGXCpPto)
+
+### An example of the package and tests (seven step):
+[![asciicast](https://asciinema.org/a/GQviqTPApk1MRTuSsaTgA0KV8.svg)](https://asciinema.org/a/GQviqTPApk1MRTuSsaTgA0KV8)
