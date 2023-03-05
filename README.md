@@ -16,3 +16,6 @@
 
 ### An example of the package and tests (seven step):
 [![asciicast](https://asciinema.org/a/GQviqTPApk1MRTuSsaTgA0KV8.svg)](https://asciinema.org/a/GQviqTPApk1MRTuSsaTgA0KV8)
+
+### An example of the package and tests (eighth step):
+[![asciicast](https://asciinema.org/a/pI5rCinl7jIdiVByzXI2sqtlo.svg)](https://asciinema.org/a/pI5rCinl7jIdiVByzXI2sqtlo)
