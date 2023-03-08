@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 const calcDiff = (file1, file2) => {
-  const keys = _.union(Object.keys(file1), Object.keys(file2)).sort();
+  const keys = _.sortBy(_.union(Object.keys(file1), Object.keys(file2)));
   const tree = keys.reduce((acc, key) => {
     if (typeof file1[key] === 'object' && typeof file2[key] === 'object') {
       acc.push({ name: key, children: calcDiff(file1[key], file2[key]), status: 'tree' });
