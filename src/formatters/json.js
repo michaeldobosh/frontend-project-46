@@ -34,4 +34,4 @@ const stringify = (object) => {
   return `${result.join()}`;
 };
 
-export default stringify;
+export default (object) => `{"name":"diff","children":[${stringify(object)}]}`;

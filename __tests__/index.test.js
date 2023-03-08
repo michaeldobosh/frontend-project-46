@@ -35,14 +35,8 @@ test('formatter/plain', () => {
 });
 
 test('formatter/json', () => {
-  expect(gendiff(paths(files[2], format[0]), paths(files[3], format[0]), 'json').slice(25, 29))
-    .toEqual('n":[');
-  expect(gendiff(paths(files[2], format[0]), paths(files[3], format[0]), 'json').slice(350, 421))
-    .toEqual('alue5"},"status":"added"},{"name":"setting6","children":[{"name":"doge"');
-  expect(gendiff(paths(files[2], format[0]), paths(files[3], format[0]), 'json').slice(752, 834))
-    .toEqual('me":"foo","value":"bar","status":"unchanged"},{"name":"nest","oldValue":{"key":"va');
-  expect(gendiff(paths(files[2], format[0]), paths(files[3], format[0]), 'json').slice(975, 1036))
-    .toEqual(':"group3","value":{"deep":{"id":{"number":45}},"fee":100500},');
+  expect(gendiff(paths(files[2], format[0]), paths(files[3], format[0]), 'json'))
+    .toEqual(JSON.stringify(diff));
 });
 
 test('gendiff .json, .yml, .yaml format', () => {
@@ -50,8 +44,8 @@ test('gendiff .json, .yml, .yaml format', () => {
     .toEqual(structure);
   expect(gendiff(paths(files[2], format[0]), paths(files[3], format[2]), 'plain'))
     .toEqual(structure2);
-  expect(gendiff(paths(files[2], format[1]), paths(files[3], format[2]), 'json').slice(752, 834))
-    .toEqual('me":"foo","value":"bar","status":"unchanged"},{"name":"nest","oldValue":{"key":"va');
+  expect(gendiff(paths(files[2], format[1]), paths(files[3], format[2]), 'json'))
+    .toEqual(JSON.stringify(diff));
 });
 
 test('others format', () => {
