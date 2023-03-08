@@ -1,18 +1,19 @@
 import _ from 'lodash';
 
+const setValue = (data) => {
+  if (_.isString(data)) data = `'${data}'`;
+  return _.isObject(data) ? '[complex value]' : data;
+};
+
 const stringify = (object, path = '') => {
   const result = object.children.reduce((acc, node) => {
-    const { name, status } = node;
-    if (_.isString(node.value)) node.value = `'${node.value}'`;
-    if (_.isString(node.oldValue)) node.oldValue = `'${node.oldValue}'`;
-    const value = _.isObject(node.value) ? '[complex value]' : node.value;
-    const oldValue = _.isObject(node.oldValue) ? '[complex value]' : node.oldValue;
+    const { name, oldValue, status } = node;
     if (status === 'tree') {
       acc.push(`${stringify(node, `${path}${name}.`)}`);
     } else if (status === 'added') {
-      acc.push(`Property '${path}${name}' was ${status} with value: ${value}`);
+      acc.push(`Property '${path}${name}' was ${status} with value: ${setValue(node.value)}`);
     } else if (status === 'updated') {
-      acc.push(`Property '${path}${name}' was ${status}. From ${oldValue} to ${value}`);
+      acc.push(`Property '${path}${name}' was ${status}. From ${setValue(oldValue)} to ${setValue(node.value)}`);
     } else if (status === 'removed') {
       acc.push(`Property '${path}${name}' was ${status}`);
     }
