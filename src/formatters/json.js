@@ -1,10 +1,10 @@
-const isObject = (value) => typeof value === 'object' && value !== null;
+import _ from 'lodash';
 
-const stringifyValue = (object) => {
+const getValue = (object) => {
   const result = Object.keys(object).reduce((acc, key) => {
-    if (isObject(object[key])) {
-      acc.push(`"${key}":{${stringifyValue(object[key])}}`);
-    } else if (typeof object[key] !== 'string') {
+    if (_.isObject(object[key])) {
+      acc.push(`"${key}":{${getValue(object[key])}}`);
+    } else if (!_.isString(object[key])) {
       acc.push(`"${key}":${object[key]}`);
     } else {
       acc.push(`"${key}":"${object[key]}"`);
@@ -15,20 +15,22 @@ const stringifyValue = (object) => {
 };
 
 const stringify = (object) => {
-  const structuredData = object.children.reduce((acc, node) => {
-    const { name, value, status } = node;
+  const result = object.children.reduce((acc, node) => {
+    const { name, status } = node;
+    node.value = _.isString(node.value) ? `"${node.value}"` : node.value;
+    node.oldValue = _.isString(node.oldValue) ? `"${node.oldValue}"` : node.oldValue;
+    const value = _.isObject(node.value) ? `{${getValue(node.value)}}` : `${node.value}`;
+    const oldValue = _.isObject(node.oldValue) ? `{${getValue(node.oldValue)}}` : `${node.oldValue}`;
     if (status === 'tree') {
-      acc.push(`{"name":"${name}","value":"${value}","status":"${status}","children":[${stringify(node)}]}`);
-    } else if (isObject(value)) {
-      acc.push(`{"name":"${name}","value":{${stringifyValue(value)}},"status":"${status}"}`);
-    } else if (typeof value === 'string') {
-      acc.push(`{"name":"${name}","value":"${value}","status":"${status}"}`);
+      acc.push(`{"name":"${name}","children":[${stringify(node)}],"status":"${status}"}`);
+    } else if (status === 'updated') {
+      acc.push(`{"name":"${name}","oldValue":${oldValue},"value":${value},"status":"${status}"}`);
     } else {
       acc.push(`{"name":"${name}","value":${value},"status":"${status}"}`);
     }
     return acc;
   }, []);
-  return `${structuredData.join()}`;
+  return `${result.join()}`;
 };
 
-export default (data) => `{"name":"${data.name}","children":[${stringify(data)}]}`;
+export default stringify;

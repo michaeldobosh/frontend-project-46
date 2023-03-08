@@ -1,12 +1,14 @@
-import path from 'node:path';
-import * as fs from 'fs';
 import yaml from 'js-yaml';
 
-const getPath = (filepath) => fs.readFileSync(path.resolve(filepath), 'utf-8');
-
-export default (filepath) => {
-  if (path.extname(filepath) === '.json') {
-    return JSON.parse(getPath(filepath));
+export default (path, extname) => {
+  switch (extname) {
+    case '.json':
+      return JSON.parse(path);
+    case '.yml':
+      return yaml.load(path);
+    case '.yaml':
+      return yaml.load(path);
+    default:
+      return 'Error';
   }
-  return yaml.load(getPath(filepath));
 };
