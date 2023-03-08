@@ -1,36 +1,29 @@
 import _ from 'lodash';
 
-const getValue = (object) => {
-  const result = Object.keys(object).reduce((acc, key) => {
-    if (_.isObject(object[key])) {
-      acc.push(`"${key}":{${getValue(object[key])}}`);
-    } else if (!_.isString(object[key])) {
-      acc.push(`"${key}":${object[key]}`);
-    } else {
-      acc.push(`"${key}":"${object[key]}"`);
-    }
-    return acc;
-  }, []);
-  return `${result.join()}`;
-};
+const getValue = (object) => Object.keys(object).map((key) => {
+  switch (typeof object[key]) {
+    case 'object': return `"${key}":{${getValue(object[key])}}`;
+    case 'string': return `"${key}":"${object[key]}"`;
+    default: return `"${key}":${object[key]}`;
+  }
+});
 
-const setValue = (data) => {
-  data = _.isString(data) ? `"${data}"` : data;
-  return _.isObject(data) ? `{${getValue(data)}}` : `${data}`;
+const setValue = (value) => {
+  const newValue = _.isString(value) ? `"${value}"` : value;
+  return _.isObject(newValue) ? `{${getValue(newValue)}}` : `${newValue}`;
 };
 
 const stringify = (object) => {
-  const result = object.children.reduce((acc, node) => {
+  const result = object.children.map((node) => {
     const { name, oldValue, status } = node;
-    if (status === 'tree') {
-      acc.push(`{"name":"${name}","children":[${stringify(node)}],"status":"${status}"}`);
-    } else if (status === 'updated') {
-      acc.push(`{"name":"${name}","oldValue":${setValue(oldValue)},"value":${setValue(node.value)},"status":"${status}"}`);
-    } else {
-      acc.push(`{"name":"${name}","value":${setValue(node.value)},"status":"${status}"}`);
+    switch (status) {
+      case 'tree':
+        return (`{"name":"${name}","status":"${status}","children":[${stringify(node)}]}`);
+      case 'updated':
+        return (`{"name":"${name}","oldValue":${setValue(oldValue)},"value":${setValue(node.value)},"status":"${status}"}`);
+      default: return (`{"name":"${name}","value":${setValue(node.value)},"status":"${status}"}`);
     }
-    return acc;
-  }, []);
+  });
   return `${result.join()}`;
 };
 
