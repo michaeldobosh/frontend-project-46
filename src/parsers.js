@@ -6,6 +6,6 @@ export default (path, extname) => {
     case '.yml': return yaml.load(path);
     case '.yaml': return yaml.load(path);
     default:
-      return {};
+      throw new Error('Error, unknown format');
   }
 };
