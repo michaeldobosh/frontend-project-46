@@ -1,29 +1,42 @@
 import _ from 'lodash';
 
-const getValue = (object, deepth = 1, indent = ' ') => Object.keys(object).map((key) => {
-  const tab = indent.repeat(4 * deepth);
-  if (_.isObject(object[key])) {
-    return `\n${tab}${key}: {${getValue(object[key], deepth + 1)}\n${tab}}`;
-  }
-  return `\n${tab}${key}: ${object[key]}`;
-}).join('');
-
-const stringify = (object, deepth = 1, indent = ' ') => {
-  const tabs = indent.repeat(4 * deepth - 2);
-  const tab = indent.repeat(4 * deepth);
-  const result = object.children.reduce((acc, node) => {
-    const { name, oldValue, status } = node;
-    const setValue = (data) => (_.isObject(data) ? `{${getValue(data, deepth + 1)}\n${tab}}` : `${data}`);
-    switch (status) {
-      case 'tree': return `${acc}\n${tab}${name}: ${stringify(node, deepth + 1)}\n${tab}}`;
-      case 'added': return `${acc}\n${tabs}+ ${name}: ${setValue(node.value)}`;
-      case 'updated':
-        return `${acc}\n${tabs}- ${name}: ${setValue(oldValue)}\n${tabs}+ ${name}: ${setValue(node.value)}`;
-      case 'removed': return `${acc}\n${tabs}- ${name}: ${setValue(node.value)}`;
-      default: return `${acc}\n${tab}${name}: ${setValue(node.value)}`;
-    }
-  }, '');
-  return `{${result}`;
+const getIndent = (deepth, status = 'unchanged', indent = ' ', length = 4) => {
+  const signsIndent = status === 'tree' || status === 'unchanged' ? 0 : 2;
+  return `\n${indent.repeat(length * deepth - signsIndent)}`;
 };
 
-export default (data) => `${stringify(data)}\n}`;
+const setValue = (data, handler, deepth) => {
+  if (!_.isObject(data)) {
+    return data;
+  }
+  return `{${handler(data, deepth + 1)}${getIndent(deepth)}}`;
+};
+
+function stringify(object, deepth = 1) {
+  return Object.keys(object).map((key) => {
+    const value = setValue(object[key], stringify, deepth);
+    return `${getIndent(deepth)}${key}: ${value}`;
+  }).join('');
+}
+function stylish(object, deepth = 1) {
+  return object.children.map(({ name, status }, i, node) => {
+    const value = setValue(node[i].value, stringify, deepth);
+    const oldValue = setValue(node[i].oldValue, stringify, deepth);
+    const indent = getIndent(deepth, status);
+    switch (status) {
+      case 'tree':
+        return `${indent}${name}: {${stylish(node[i], deepth + 1)}${indent}}`;
+      case 'added':
+        return `${indent}+ ${name}: ${value}`;
+      case 'updated':
+        return `${indent}- ${name}: ${oldValue}${indent}+ ${name}: ${value}`;
+      case 'removed':
+        return `${indent}- ${name}: ${value}`;
+      case 'unchanged':
+        return `${indent}${name}: ${value}`;
+      default: return null;
+    }
+  }).join('');
+}
+
+export default (object) => `{${stylish(object)}\n}`;

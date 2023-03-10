@@ -1,26 +1,34 @@
 import _ from 'lodash';
 
-const setValue = (value) => {
-  const newValue = _.isString(value) ? `'${value}'` : value;
-  return _.isObject(newValue) ? '[complex value]' : newValue;
+const stringify = (value) => {
+  if (_.isObject(value)) {
+    return '[complex value]';
+  }
+  if (_.isString(value)) {
+    return `'${value}'`;
+  }
+  return value;
 };
 
-const stringify = (object, path = '') => {
-  const result = object.children.map((node) => {
-    const { name, oldValue, status } = node;
+const plain = (object, path = '') => {
+  const result = object.children.map(({ name, status }, i, node) => {
+    const value = stringify(node[i].value);
+    const oldValue = stringify(node[i].oldValue);
     switch (status) {
       case 'tree':
-        return `${stringify(node, `${path}${name}.`)}`;
+        return `${plain(node[i], `${path}${name}.`)}`;
       case 'added':
-        return `Property '${path}${name}' was ${status} with value: ${setValue(node.value)}`;
+        return `Property '${path}${name}' was ${status} with value: ${value}`;
       case 'updated':
-        return `Property '${path}${name}' was ${status}. From ${setValue(oldValue)} to ${setValue(node.value)}`;
+        return `Property '${path}${name}' was ${status}. From ${oldValue} to ${value}`;
+      case 'removed':
+        return `Property '${path}${name}' was ${status}`;
       case 'unchanged':
-        return '';
-      default: return `Property '${path}${name}' was ${status}`;
+        return 'unchanged';
+      default: return null;
     }
   });
-  return `${result.filter((el) => el !== '').join('\n')}`;
+  return `${result.filter((el) => el !== 'unchanged').join('\n')}`;
 };
 
-export default stringify;
+export default plain;

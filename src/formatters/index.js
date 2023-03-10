@@ -6,6 +6,7 @@ export default (formatName) => {
   switch (formatName) {
     case 'plain': return plain;
     case 'json': return json;
-    default: return stylish;
+    case 'stylish': return stylish;
+    default: return null;
   }
 };
