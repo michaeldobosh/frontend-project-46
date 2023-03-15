@@ -7,6 +7,6 @@ export default (formatName) => {
     case 'plain': return plain;
     case 'json': return json;
     case 'stylish': return stylish;
-    default: return null;
+    default: throw new Error('Unknown format');
   }
 };

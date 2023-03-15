@@ -2,7 +2,7 @@
   "name": "@hexlet/code",
   "version": "1.0.0",
   "type": "module",
-  "description": "Difference Calculator",
+  "description": "Difference Calculator is a program that determines the difference between two data structures. ",
   "main": "src/index.js",
   "scripts": {
     "test": "npx jest"
